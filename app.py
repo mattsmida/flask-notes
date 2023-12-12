@@ -56,26 +56,39 @@ def register_user():
     else:
         return render_template('register.html')
 
-@app.route('login',methods=['GET','POST'])
+
+@app.route('login', methods=['GET', 'POST'])
 def log_in_user():
     """ showing and processing login form"""
 
     form = LoginUserForm()
 
     if form.validate_on_submit():
-        username=form.username.data
-        password=form.password.data
+        username = form.username.data
+        password = form.password.data
 
-    if User.authenticate(username,password):
-        session["username"] = username
+        user = User.authenticate(username, password)
+
+        if user:
+            session["username"] = user.username
+            return redirect(f'/users/{username}')
+
+        else:
+            flash('username or password is incorrect')
+            return render_template('login.html')
 
     else:
-        flash('username or password is incorrect')
-        redirect('/login')
+        return render_template('login.html')
 
 
+@app.get('/users/<str:username>')
+def show_user_info(username):
 
+    user = User.query.get_or_404(username)   # TODO: Authorization.
 
+    user_info = {item for item in user if item != user.password}
+
+    return render_template('user_info.html', user_info=user_info)
 
 
 
