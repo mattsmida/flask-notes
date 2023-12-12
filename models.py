@@ -5,6 +5,7 @@ db = SQLAlchemy()
 
 bcrypt = Bcrypt()
 
+
 def connect_db(app):
     """Connect to database."""
 
@@ -17,7 +18,6 @@ class User(db.Model):
     """site user"""
 
     __tablename__ = "users"
-
 
     username = db.Column(
         db.String(20),
