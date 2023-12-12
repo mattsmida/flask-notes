@@ -8,6 +8,7 @@ decorator==5.1.1
 exceptiongroup==1.2.0
 executing==2.0.1
 Flask==2.3.3
+Flask-Bcrypt==1.0.1
 Flask-DebugToolbar @ git+https://github.com/pallets-eco/flask-debugtoolbar@b03a2e6fb337183a188c67c56a11caf043dd1371
 Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.1
