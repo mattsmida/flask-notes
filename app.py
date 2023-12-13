@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import connect_db, db, User  # BadUser
-from forms import CreateUserForm, LoginUserForm  # LoginForm, CSRFProtectForm
+from forms import CreateUserForm, LoginUserForm, CSRFProtectForm
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
@@ -75,32 +75,36 @@ def log_in_user():
 
         else:
             flash('username or password is incorrect')
-            return render_template('login.html')
+            return render_template('login.html', form=form)
 
     else:
-        return render_template('login.html')
+        return render_template('login.html', form=form)
 
 
 @app.get('/users/<username>')
 def show_user_info(username):
+    """ Show information about the current user only if logged in. """
 
-    user = User.query.get_or_404(username)   # TODO: Authorization.
+    user = User.query.get_or_404(username)
+    form = CSRFProtectForm()
 
     user_info = {
-        "username":user.username,
-        "email":user.email,
-        "first_name":user.first_name,
-        "last_name":user.last_name
+        "username": user.username,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name
     }
 
-    return render_template('user_info.html', user_info=user_info)
+    return render_template('user_info.html', form=form, user_info=user_info)
 
 
+@app.post('/logout')
+def logout():
+    """ Log out the current user and redirect to the root route. """
+    form = CSRFProtectForm()
 
+    if form.validate_on_submit():
+        # Remove username if present, but no errors if it isn't
+        session.pop('username', None)
 
-
-
-
-
-
-
+    return redirect('/')

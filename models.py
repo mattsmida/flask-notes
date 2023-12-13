@@ -45,23 +45,14 @@ class User(db.Model):
         nullable=False
     )
 
-
     @classmethod
-    def authenticate(cls,username,password):
+    def authenticate(cls, username, password):
         """authenticate """
-
 
         u = cls.query.filter_by(username=username).one_or_none()
 
-        if u and bcrypt.check_password_hash(u.password,password):
+        if u and bcrypt.check_password_hash(u.password, password):
             return u
 
         else:
             return False
-
-
-
-
-
-
-

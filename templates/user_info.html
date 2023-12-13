@@ -2,14 +2,21 @@
 
 {% block title %}User Info{% endblock %}
 
-
-
 {% block content %}
 
+{% if 'username' in session %}
+    {% for (k, v) in user_info.items() %}
+        <p> {{ k }}: {{ v }}</p>
+    {% endfor %}
 
+    <form action="/logout" method="POST">
+        {{ form.hidden_tag() }}
+        <button type="submit">Logout</button>
+    </form>
 
-{% for (k, v) in user_info.items() %}
-    <p> {{ k }}: {{ v }}</p>
-{% endfor %}
+{% else %}
+    <p> Not logged in! </p>
+    <a href="/login">Want to log in?</a>
+{% endif %}
 
 {% endblock %}
