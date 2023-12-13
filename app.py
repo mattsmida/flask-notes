@@ -48,6 +48,8 @@ def register_user():
             last_name=last_name,
             password=password_hash)
 
+        session["username"] = username
+
         db.session.add(user)
         db.session.commit()
 
