@@ -4,6 +4,11 @@
 
 {% block content %}
 
+{# The loop is a little extra.
+Use user.firstname
+    user.email
+    etc. #}
+
 {% if 'username' in session %}
     {% for (k, v) in user_info.items() %}
         <p> {{ k }}: {{ v }}</p>
