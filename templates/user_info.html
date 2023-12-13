@@ -1,11 +1,15 @@
-{% extends 'base.html '%}
+{% extends 'base.html' %}
 
 {% block title %}User Info{% endblock %}
 
-{% for item in user_info %}
-    <p> {{ item }}</p>
-{% endfor %}
+
 
 {% block content %}
+
+
+
+{% for (k, v) in user_info.items() %}
+    <p> {{ k }}: {{ v }}</p>
+{% endfor %}
 
 {% endblock %}

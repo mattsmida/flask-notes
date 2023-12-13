@@ -1,9 +1,14 @@
-{% extends 'base.html '%}
+{% extends 'base.html' %}
 
 {% block title %}Register{% endblock %}
 
 
 
 {% block content %}
+
+<form method="POST">
+{% include "_forms.html" %}
+<button type="submit">Register</button>
+</form>
 
 {% endblock %}

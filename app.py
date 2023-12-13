@@ -27,7 +27,7 @@ def show_homepage():
     return redirect('/register')
 
 
-@app.method('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register_user():
     """showing and procesing form to register user"""
 
@@ -54,10 +54,10 @@ def register_user():
         return redirect(f'/users/{username}')
 
     else:
-        return render_template('register.html')
+        return render_template('register.html', form=form)
 
 
-@app.route('login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def log_in_user():
     """ showing and processing login form"""
 
@@ -81,12 +81,17 @@ def log_in_user():
         return render_template('login.html')
 
 
-@app.get('/users/<str:username>')
+@app.get('/users/<username>')
 def show_user_info(username):
 
     user = User.query.get_or_404(username)   # TODO: Authorization.
 
-    user_info = {item for item in user if item != user.password}
+    user_info = {
+        "username":user.username,
+        "email":user.email,
+        "first_name":user.first_name,
+        "last_name":user.last_name
+    }
 
     return render_template('user_info.html', user_info=user_info)
 
