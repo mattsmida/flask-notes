@@ -72,6 +72,13 @@ def log_in_user():
     """ showing and processing login form"""
     # Needs to have a redirect to the user info page if logged in. TODO:
 
+    #TODO:
+
+    user = User.query.filter_by(username = session["username"]).one_or_none()
+
+    if session["username"] == user.username:
+        redirect('/users/<username>')
+
     form = LoginUserForm()
 
     if form.validate_on_submit():
@@ -100,20 +107,12 @@ def show_user_info(username):
     user = User.query.get_or_404(username)
     form = CSRFProtectForm()
 
-    user_info = {
-        "username": user.username,
-        "email": user.email,
-        "first_name": user.first_name,
-        "last_name": user.last_name
-    }
-
-    # Just pass user over, then in the template, do user.email, user.fname etc
     # ...But is it a security risk to pass user over to the template?
     # No, it's not because user.password will give the hashed password
     # which is already hard to get into because you'd need to get into the
     # backend.
 
-    return render_template('user_info.html', form=form, user_info=user_info)
+    return render_template('user_info.html', form=form,user=user)
 
 
 # Logout should be near login here in the code. Why? Logical grouping of rtes.

@@ -10,9 +10,19 @@ Use user.firstname
     etc. #}
 
 {% if 'username' in session %}
-    {% for (k, v) in user_info.items() %}
+    <section>
+        username: {{user.username}}
+        <br>
+        email: {{user.email}}
+        <br>
+        first name: {{user.first_name}}
+        <br>
+        last name: {{user.last_name}}
+    </section>
+
+    {# {% for (k, v) in user_info.items() %}
         <p> {{ k }}: {{ v }}</p>
-    {% endfor %}
+    {% endfor %} #}
 
     <form action="/logout" method="POST">
         {{ form.hidden_tag() }}
